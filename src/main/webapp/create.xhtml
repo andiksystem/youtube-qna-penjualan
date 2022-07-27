@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Penjualan Baru</title>
+        <h:outputStylesheet library="css" name="main.css"/>
+        <h:outputStylesheet library="css" name="primeflex.min.css"/>
+    </h:head>
+    <h:body>
+        <h:form id="mainForm">
+            <p:outputPanel id="contentPanel" styleClass="content-panel">
+                <h1>Penjualan Baru</h1>
+
+                <p:card styleClass="p-mb-4">
+                    <h:panelGrid columns="2"
+                                 styleClass="form-grid ui-fluid"
+                                 columnClasses="label,value">
+                        <p:outputLabel for="pelanggan" value="Pelanggan"/>
+                        <p:autoComplete id="pelanggan"
+                                        value="#{penjualanCreate.penjualan.pelanggan}"
+                                        completeMethod="#{penjualanCreate.completePelanggan}"
+                                        converter="entityConverter"
+                                        var="pel"
+                                        itemValue="#{pel}"
+                                        itemLabel="#{pel.nama}"
+                                        forceSelection="true"
+                                        placeholder="Ketik nama pelanggan">
+                            <p:ajax event="itemSelect"
+                                    listener="#{penjualanCreate.onPelangganSelect}"
+                                    update=":mainForm:contentPanel"/>
+                        </p:autoComplete>
+
+                        <h:outputText value="Alamat"/>
+                        <h:outputText value="#{penjualanCreate.penjualan.pelanggan.alamat}"/>
+
+                        <h:outputText value="Telepon"/>
+                        <h:outputText value="#{penjualanCreate.penjualan.pelanggan.telepon}"/>
+
+                        <h:outputText value="Jenis Pelanggan"/>
+                        <h:outputText value="#{penjualanCreate.penjualan.pelanggan.jenisPelanggan.nama}"/>
+                    </h:panelGrid>
+                </p:card>
+
+                <p:card styleClass="p-mb-4">
+                    <p:outputPanel styleClass="ui-fluid p-mb-2">
+                        <p:autoComplete value="#{penjualanCreate.selectedProduk}"
+                                        converter="entityConverter"
+                                        completeMethod="#{penjualanCreate.completeProduk}"
+                                        var="produk"
+                                        itemValue="#{produk}"
+                                        itemLabel="#{produk.nama}"
+                                        forceSelection="true"
+                                        placeholder="Ketik nama produk">
+                            <p:ajax event="itemSelect"
+                                    listener="#{penjualanCreate.onProdukSelect}"
+                                    update=":mainForm:dataPanel, @this"/>
+                        </p:autoComplete>
+                    </p:outputPanel>
+                    <p:outputPanel id="dataPanel">
+                        <p:dataTable value="#{penjualanCreate.penjualanProduks}"
+                                     id="dataTable"
+                                     var="pp"
+                                     size="small">
+                            <p:column headerText="Nama Produk">
+                                <h:outputText value="#{pp.deskripsi}"/>
+                            </p:column>
+                            <p:column headerText="Qty" style="width: 120px; text-align: right;">
+                                <p:outputPanel styleClass="ui-fluid">
+                                    <p:inputText value="#{pp.kuantitas}">
+                                        <p:ajax event="blur"
+                                                listener="#{penjualanCreate.updatePenjualanProduk(pp)}"
+                                                update="jumlah, :mainForm:gridTotal"/>
+                                    </p:inputText>
+                                </p:outputPanel>
+                            </p:column>
+                            <p:column headerText="Harga (Rp)" style="width: 120px; text-align: right;">
+                                <h:outputText value="#{pp.harga}">
+                                    <f:convertNumber locale="id" pattern="#,###.##"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Jumlah (Rp)" style="width: 120px; text-align: right;">
+                                <h:outputText id="jumlah" value="#{pp.jumlah}">
+                                    <f:convertNumber locale="id" pattern="#,###.##"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column style="width: 32px; text-align: center;">
+                                <p:commandButton icon="pi pi-trash"
+                                                 styleClass="rounded-button ui-button-plain ui-button-flat"
+                                                 actionListener="#{penjualanCreate.deletePenjualanProduk(pp)}"
+                                                 update="dataTable, :mainForm:gridTotal"/>
+                            </p:column>
+                        </p:dataTable>
+
+                        <h:panelGrid columns="2" id="gridTotal"
+                                     styleClass="grid-total"
+                                     columnClasses="label,value">
+                            <h:outputText value="Total"/>
+                            <h:outputText value="#{penjualanCreate.penjualan.jumlah}">
+                                <f:convertNumber locale="id" pattern="#,###.##"/>                                
+                            </h:outputText>
+                        </h:panelGrid>
+                    </p:outputPanel>
+                </p:card>
+                <div style="text-align: right;">
+                    <p:commandButton value="Simpan"
+                                     icon="pi pi-check"
+                                     action="#{penjualanCreate.save()}"/>
+                </div>
+            </p:outputPanel>
+        </h:form>
+    </h:body>
+</html>
+

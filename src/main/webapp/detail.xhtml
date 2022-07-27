@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Penjualan Baru</title>
+        <h:outputStylesheet library="css" name="main.css"/>
+        <h:outputStylesheet library="css" name="primeflex.min.css"/>
+    </h:head>
+    <h:body>
+        <h:form id="mainForm">
+            <p:outputPanel id="contentPanel" styleClass="content-panel">
+                <h1>Penjualan Baru</h1>
+
+                <p:card styleClass="p-mb-4">
+                    <h:panelGrid columns="2"
+                                 styleClass="form-grid ui-fluid"
+                                 columnClasses="label,value">
+                        <h:outputText value="Nomor"/>
+                        <h:outputText value="#{penjualanDetail.penjualan.nomor}"/>
+
+                        <h:outputText value="Tanggal"/>
+                        <h:outputText value="#{penjualanDetail.penjualan.tanggal}">
+                            <f:convertDateTime locale="id" pattern="dd MMMMM yyyy"/>
+                        </h:outputText>
+
+                        <h:outputText value="Nama Pelanggan"/>
+                        <h:outputText value="#{penjualanDetail.penjualan.pelanggan.nama}"/>
+
+                        <h:outputText value="Jenis Pelanggan"/>
+                        <h:outputText value="#{penjualanDetail.penjualan.pelanggan.jenisPelanggan.nama}"/>
+
+                        <h:outputText value="Alamat"/>
+                        <h:outputText value="#{penjualanDetail.penjualan.pelanggan.alamat}"/>
+
+                        <h:outputText value="Telepon"/>
+                        <h:outputText value="#{penjualanDetail.penjualan.pelanggan.telepon}"/>
+
+                        <h:outputText value="Jenis Pelanggan"/>
+                        <h:outputText value="#{penjualanDetail.penjualan.pelanggan.jenisPelanggan.nama}"/>
+                    </h:panelGrid>
+                </p:card>
+
+                <p:card styleClass="p-mb-4">
+                    <p:outputPanel id="dataPanel">
+                        <p:dataTable value="#{penjualanDetail.penjualanProduks}"
+                                     var="pp"
+                                     size="small">
+                            <p:column headerText="Nama Produk">
+                                <h:outputText value="#{pp.deskripsi}"/>
+                            </p:column>
+                            <p:column headerText="Qty" style="width: 120px; text-align: right;">
+                                <h:outputText value="#{pp.kuantitas}">
+                                    <f:convertNumber locale="id" pattern="#,###.##"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Harga (Rp)" style="width: 120px; text-align: right;">
+                                <h:outputText value="#{pp.harga}">
+                                    <f:convertNumber locale="id" pattern="#,###.##"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Jumlah (Rp)" style="width: 120px; text-align: right;">
+                                <h:outputText id="jumlah" value="#{pp.jumlah}">
+                                    <f:convertNumber locale="id" pattern="#,###.##"/>
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+
+                        <h:panelGrid columns="2" id="gridTotal"
+                                     styleClass="grid-total"
+                                     columnClasses="label,value">
+                            <h:outputText value="Total"/>
+                            <h:outputText value="#{penjualanDetail.penjualan.jumlah}">
+                                <f:convertNumber locale="id" pattern="#,###.##"/>                                
+                            </h:outputText>
+                        </h:panelGrid>
+                    </p:outputPanel>
+                </p:card>
+                <div style="text-align: right;">
+                    <p:button outcome="index.xhtml"
+                              value="Kembali ke List"
+                              icon="pi pi-chevron-left"
+                              styleClass="p-mr-4"/>
+                    <p:commandButton value="Hapus Penjualan"
+                                     icon="pi pi-trash"
+                                     action="#{penjualanDetail.hapusPenjualan()}"/>
+                </div>
+            </p:outputPanel>
+        </h:form>
+    </h:body>
+</html>
+

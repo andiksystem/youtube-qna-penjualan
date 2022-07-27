@@ -1,0 +1,33 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Jul 28, 2022, 12:38:12 AM
+    Author     : andik
+*/
+
+
+.form-grid {
+    width: 100%;
+}
+
+.form-grid .label {
+    width: 200px;
+}
+
+.grid-total {
+    width: 100%;
+}
+
+.grid-total .value {
+    width: 200px;
+    text-align: right;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.grid-total .label {
+    font-size: 20px;
+    text-align: right;
+}
